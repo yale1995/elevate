@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint src --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsup src --out-dir build",
     "start:dev": "tsx watch src/server.ts"
@@ -20,6 +21,7 @@
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@rocketseat/eslint-config": "^2.2.2",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.2",
     "prisma": "^6.3.1",
