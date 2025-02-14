@@ -1,11 +1,7 @@
-import express from "express";
-import { usersRoutes } from "./http/controllers/users/routes";
-import { env } from "./env";
+import express from 'express'
+import { usersRoutes } from './http/controllers/users/routes'
 
-export const app = express();
+export const app = express()
 
-app.use(express.json());
-app.use(usersRoutes);
-
-
-
+app.use(express.json())
+app.use(usersRoutes)

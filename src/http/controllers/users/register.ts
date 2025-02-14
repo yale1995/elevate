@@ -1,40 +1,38 @@
-import { z } from "zod";
-import { Request, Response } from "express";
-import { RegisterUseCase } from "@/use-cases/users/register";
-import { PrismaUsersRepository } from "@/repositories/prisma/prisma-users-repository";
+import { z } from 'zod'
+import { Request, Response } from 'express'
+
+import { makeRegisterUseCase } from '@/use-cases/factories/make-register-use-case'
+import { UserAlreadyExistsError } from '@/use-cases/errors/user-already-exists-error'
 
 const registerBodySchema = z.object({
   name: z.string(),
   email: z.string().email(),
-  password: z.string(),
-});
+  password: z.string().min(6),
+})
 
-export const register = async (request: Request, response: Response): Promise<Response> => {
-  const { name, email, password } = registerBodySchema.parse(request.body);
+export const register = async (
+  request: Request,
+  response: Response,
+): Promise<Response> => {
+  const { name, email, password } = registerBodySchema.parse(request.body)
 
   try {
-    const usersRepository = new PrismaUsersRepository();
-    const registerUseCase = new RegisterUseCase(usersRepository);
+    const registerUseCase = makeRegisterUseCase()
 
-    const { user } = await registerUseCase.execute({
+    await registerUseCase.execute({
       name,
       email,
       password,
-      });
+    })
 
-    return response.status(201).json({
-      user,
-    });
-
+    return response.status(201).send()
   } catch (error) {
-    if (error instanceof Error) {
-      return response.status(400).json({
+    if (error instanceof UserAlreadyExistsError) {
+      return response.status(409).send({
         message: error.message,
-      });
+      })
     }
 
-    return response.status(400).json({
-      message: "User already exists.",
-    });
+    throw error
   }
-};
+}
