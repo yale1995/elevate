@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint src --ext .ts --fix",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run --dir src/use-cases",
     "build": "tsup src --out-dir build",
     "start:dev": "tsx watch src/server.ts"
   },
@@ -26,6 +26,8 @@
     "@types/node": "^22.10.2",
     "prisma": "^6.3.1",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.5"
   }
 }
