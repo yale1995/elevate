@@ -14,9 +14,8 @@ export const register = async (
   request: Request,
   response: Response,
 ): Promise<Response> => {
-  const { name, email, password } = registerBodySchema.parse(request.body)
-
   try {
+    const { name, email, password } = registerBodySchema.parse(request.body)
     const registerUseCase = makeRegisterUseCase()
 
     await registerUseCase.execute({
